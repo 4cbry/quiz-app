@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="stylesheet" href="/css/estilo.css">
   <title>Admin Preguntas - Game Quiz</title>
   <style>
     .admin-wrap       { max-width: 900px; margin: 0 auto; padding: 1rem; }
@@ -28,6 +28,7 @@
       border: 1px solid rgba(255,255,255,0.2);
       background: rgba(255,255,255,0.08); color: #fff; font-size: 0.9rem;
     }
+    select option { background: #1e1b2e; color: #fff; }
 
     /* Modal */
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 100; }
@@ -53,12 +54,12 @@
   </style>
 </head>
 <body>
-  <div class="container" style="max-width:1000px;">
-    <img src="img/auris.png" alt="" class="img">
+  <div class="container" style="width: 95%; max-width: 1000px; max-height: 90vh; overflow-y: auto; border-radius: 16px;">
+    <img src="/img/auris.png" alt="" class="img">
     <header>
-      <div class="puntaje"><img src="img/puntos.png" alt=""><span class="puntos">🔐</span></div>
+      <div class="puntaje"><img src="/img/puntos.png" alt=""><span class="puntos">🔐</span></div>
       <h1>QUIZ</h1>
-      <div class="jugador"><span class="nombre">Admin</span><img src="img/user.png" alt=""></div>
+      <div class="jugador"><span class="nombre">Admin</span><img src="/img/user.png" alt=""></div>
     </header>
 
     <div class="admin-wrap">
@@ -149,6 +150,6 @@
     </div>
   </div>
 
-  <script src="js/admin-preguntas.js"></script>
+  <script src="/js/admin-preguntas.js"></script>
 </body>
 </html>
