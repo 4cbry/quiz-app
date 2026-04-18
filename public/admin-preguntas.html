@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/estilo.css">
+  <title>Admin Preguntas - Game Quiz</title>
+  <style>
+    .admin-wrap       { max-width: 900px; margin: 0 auto; padding: 1rem; }
+    .admin-header     { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.5rem; }
+    .btn-sm           { padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: 8px; cursor: pointer; border: none; }
+    .btn-verde        { background: #16a34a; color: #fff; }
+    .btn-azul         { background: #2563eb; color: #fff; }
+    .btn-rojo         { background: #dc2626; color: #fff; }
+    .btn-gris         { background: #6b7280; color: #fff; }
+
+    /* Tabla */
+    .tabla-preguntas  { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .tabla-preguntas th { background: #5c00b8; color: #fff; padding: 0.6rem 0.8rem; text-align: left; }
+    .tabla-preguntas td { padding: 0.55rem 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.08); color: #ddd; vertical-align: top; }
+    .tabla-preguntas tr:hover td { background: rgba(255,255,255,0.04); }
+    .badge-cat { font-size: 0.72rem; background: rgba(167,139,250,0.2); color: #a78bfa; padding: 2px 7px; border-radius: 20px; }
+
+    /* Filtro */
+    .filtros { display: flex; gap: 0.8rem; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
+    .filtros select, .filtros input {
+      padding: 0.4rem 0.7rem; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.08); color: #fff; font-size: 0.9rem;
+    }
+
+    /* Modal */
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 100; }
+    .modal {
+      background: #1e1b2e; border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px; padding: 1.5rem; width: 95%; max-width: 520px;
+      max-height: 90vh; overflow-y: auto;
+    }
+    .modal h3 { margin-bottom: 1rem; }
+    .campo    { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.8rem; }
+    .campo label { font-size: 0.85rem; color: #bbb; }
+    .campo input, .campo select, .campo textarea {
+      padding: 0.55rem 0.8rem; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.07); color: #fff; font-size: 0.9rem;
+      box-sizing: border-box; width: 100%;
+    }
+    .campo textarea { resize: vertical; min-height: 70px; }
+    .modal-botones { display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1rem; }
+    #msg-form { font-size: 0.85rem; margin-top: 0.5rem; min-height: 1.2rem; }
+    .ok  { color: #4ade80; }
+    .err { color: #f87171; }
+  </style>
+</head>
+<body>
+  <div class="container" style="max-width:1000px;">
+    <img src="img/auris.png" alt="" class="img">
+    <header>
+      <div class="puntaje"><img src="img/puntos.png" alt=""><span class="puntos">🔐</span></div>
+      <h1>QUIZ</h1>
+      <div class="jugador"><span class="nombre">Admin</span><img src="img/user.png" alt=""></div>
+    </header>
+
+    <div class="admin-wrap">
+      <div class="admin-header">
+        <h2 style="margin:0;">Gestión de Preguntas</h2>
+        <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
+          <button class="btn-sm btn-verde" id="btn-nueva">+ Nueva Pregunta</button>
+          <button class="btn-sm btn-gris"  id="btn-salir">Cerrar Sesión</button>
+          <a href="/" style="text-decoration:none;"><button class="btn-sm btn-azul">🎮 Ir al Juego</button></a>
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="filtros">
+        <select id="filtro-cat">
+          <option value="">Todas las categorías</option>
+          <option value="general">General</option>
+          <option value="musica">Música</option>
+          <option value="peliculas">Películas</option>
+          <option value="deportes">Deportes</option>
+          <option value="programacion">Programación</option>
+          <option value="juegos">Video Juegos</option>
+        </select>
+        <input type="text" id="filtro-buscar" placeholder="Buscar pregunta...">
+        <span id="conteo" style="color:#bbb;font-size:0.85rem;"></span>
+      </div>
+
+      <!-- Tabla -->
+      <div style="overflow-x:auto;">
+        <table class="tabla-preguntas">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Categoría</th>
+              <th>Enunciado</th>
+              <th>Correcta</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-body">
+            <tr><td colspan="5" style="text-align:center;">Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Crear/Editar -->
+  <div class="overlay" id="modal" style="display:none;">
+    <div class="modal">
+      <h3 id="modal-titulo">Nueva Pregunta</h3>
+
+      <div class="campo">
+        <label>Categoría *</label>
+        <select id="f-categoria">
+          <option value="general">General</option>
+          <option value="musica">Música</option>
+          <option value="peliculas">Películas</option>
+          <option value="deportes">Deportes</option>
+          <option value="programacion">Programación</option>
+          <option value="juegos">Video Juegos</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label>Enunciado *</label>
+        <textarea id="f-titulo" placeholder="Escribe la pregunta..."></textarea>
+      </div>
+      <div class="campo"><label>Opción A *</label><input type="text" id="f-a"></div>
+      <div class="campo"><label>Opción B *</label><input type="text" id="f-b"></div>
+      <div class="campo"><label>Opción C *</label><input type="text" id="f-c"></div>
+      <div class="campo"><label>Opción D *</label><input type="text" id="f-d"></div>
+      <div class="campo">
+        <label>Respuesta correcta *</label>
+        <select id="f-correcta">
+          <option value="a">A</option>
+          <option value="b">B</option>
+          <option value="c">C</option>
+          <option value="d">D</option>
+        </select>
+      </div>
+
+      <p id="msg-form"></p>
+
+      <div class="modal-botones">
+        <button class="btn-sm btn-gris" id="btn-cancelar-modal">Cancelar</button>
+        <button class="btn-sm btn-verde" id="btn-guardar">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/admin-preguntas.js"></script>
+</body>
+</html>

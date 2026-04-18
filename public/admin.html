@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/estilo.css">
+  <title>Admin - Game Quiz</title>
+  <style>
+    .login-box {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 360px;
+      margin: 2rem auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .login-box h2 { text-align: center; margin-bottom: 0.5rem; }
+    .login-box label { font-size: 0.9rem; color: #bbb; }
+    .login-box input {
+      width: 100%; padding: 0.6rem 0.8rem;
+      border-radius: 8px; border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.08); color: #fff; font-size: 1rem;
+      box-sizing: border-box;
+    }
+    #error-login { color: #f87171; text-align: center; display: none; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="img/auris.png" alt="" class="img">
+    <header>
+      <div class="puntaje"><img src="img/puntos.png" alt=""><span class="puntos">🔐</span></div>
+      <h1>QUIZ</h1>
+      <div class="jugador"><span class="nombre">Admin</span><img src="img/user.png" alt=""></div>
+    </header>
+
+    <main>
+      <div class="login-box">
+        <h2>Panel Administrativo</h2>
+        <div>
+          <label>Usuario</label>
+          <input type="text" id="usuario" placeholder="admin" autocomplete="username">
+        </div>
+        <div>
+          <label>Contraseña</label>
+          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <p id="error-login">Usuario o contraseña incorrectos.</p>
+        <button class="btn" id="btn-login">Ingresar</button>
+        <p style="text-align:center;font-size:0.85rem;opacity:0.5;">
+          <a href="/" style="color:#a78bfa;">← Volver al juego</a>
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Si ya hay sesión admin, redirigir directamente
+    if (sessionStorage.getItem('admin_ok') === 'true') {
+      location.href = '/admin/preguntas';
+    }
+
+    const btnLogin   = document.querySelector('#btn-login');
+    const errorLogin = document.querySelector('#error-login');
+
+    btnLogin.addEventListener('click', async () => {
+      const usuario  = document.querySelector('#usuario').value.trim();
+      const password = document.querySelector('#password').value;
+      errorLogin.style.display = 'none';
+
+      if (!usuario || !password) {
+        errorLogin.textContent = 'Completa todos los campos.';
+        errorLogin.style.display = 'block';
+        return;
+      }
+
+      btnLogin.disabled = true;
+      btnLogin.textContent = 'Verificando...';
+
+      try {
+        const res  = await fetch('/api/admin/login', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ usuario, password }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+
+        sessionStorage.setItem('admin_ok', 'true');
+        location.href = '/admin/preguntas';
+      } catch (err) {
+        errorLogin.textContent = err.message || 'Error al conectar.';
+        errorLogin.style.display = 'block';
+        btnLogin.disabled = false;
+        btnLogin.textContent = 'Ingresar';
+      }
+    });
+
+    // Enter para login
+    document.querySelector('#password').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') btnLogin.click();
+    });
+  </script>
+</body>
+</html>

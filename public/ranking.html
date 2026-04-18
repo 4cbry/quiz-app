@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/estilo.css">
+  <title>Ranking - Game Quiz</title>
+  <style>
+    .ranking-wrap    { width: 100%; max-width: 620px; margin: 0 auto; }
+    .ranking-table   { width: 100%; border-collapse: collapse; border-radius: 12px; overflow: hidden; }
+    .ranking-table th {
+      background: #5c00b8; color: #fff;
+      padding: 0.7rem 1rem; text-align: left; font-size: 0.85rem;
+    }
+    .ranking-table td {
+      padding: 0.6rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.08);
+      color: #ddd; font-size: 0.9rem;
+    }
+    .ranking-table tr:last-child td { border-bottom: none; }
+    .pos-1 td { color: gold !important; font-weight: bold; }
+    .pos-2 td { color: silver !important; }
+    .pos-3 td { color: #cd7f32 !important; }
+    .volver { display: block; margin: 1.5rem auto 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="img/auris.png" alt="" class="img">
+    <header>
+      <div class="puntaje"><img src="img/puntos.png" alt=""><span class="puntos">🏆</span></div>
+      <h1>QUIZ</h1>
+      <div class="jugador"><span class="nombre" id="nombre">-</span><img src="img/user.png" alt=""></div>
+    </header>
+
+    <main style="padding:1rem;">
+      <h2 style="text-align:center;margin-bottom:1rem;">🏆 Top 10 Jugadores</h2>
+      <div class="ranking-wrap">
+        <table class="ranking-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Jugador</th>
+              <th>Puntaje</th>
+              <th>Preguntas</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody id="ranking-body">
+            <tr><td colspan="5" style="text-align:center;">Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <button class="btn volver" id="btn-volver">← Volver</button>
+    </main>
+  </div>
+  <script>
+    document.querySelector('#nombre').textContent = sessionStorage.getItem('jugador_nombre') || '-';
+    document.querySelector('#btn-volver').addEventListener('click', () => history.back());
+
+    async function cargarRanking() {
+      const tbody = document.querySelector('#ranking-body');
+      try {
+        const res  = await fetch('/api/jugadores');
+        const data = await res.json();
+        if (!data.length) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Aún no hay partidas.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = data.map((r, i) => {
+          const fecha = new Date(r.jugado_en).toLocaleDateString('es-CO');
+          return `<tr class="${i===0?'pos-1':i===1?'pos-2':i===2?'pos-3':''}">
+            <td>${i+1}</td>
+            <td>${r.nombre}</td>
+            <td>${r.puntaje}</td>
+            <td>${r.num_preguntas}</td>
+            <td>${fecha}</td>
+          </tr>`;
+        }).join('');
+      } catch (e) {
+        tbody.innerHTML = '<tr><td colspan="5" style="color:red;text-align:center;">Error al cargar.</td></tr>';
+      }
+    }
+    cargarRanking();
+  </script>
+</body>
+</html>

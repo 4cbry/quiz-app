@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/estilo.css">
+  <title>Game Quiz</title>
+  <style>
+    .selector-cantidad {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin: 1rem 0 1.5rem;
+    }
+    .btn-cantidad {
+      padding: 0.5rem 1.2rem;
+      border: 2px solid #a78bfa;
+      background: transparent;
+      color: #a78bfa;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+    .btn-cantidad.activo, .btn-cantidad:hover {
+      background: #a78bfa;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="img/auris.png" alt="" class="img">
+    <header>
+      <div class="puntaje"><img src="img/puntos.png" alt=""><span class="puntos" id="puntos">0</span></div>
+      <h1>QUIZ</h1>
+      <div class="jugador"><span class="nombre" id="nombre">-</span><img src="img/user.png" alt=""></div>
+    </header>
+
+    <main class="menu">
+      <h2>Hola <span id="nombre-jugador">-</span></h2>
+
+      <p>¿Cuántas preguntas quieres responder?</p>
+      <div class="selector-cantidad">
+        <button class="btn-cantidad activo" data-cantidad="10">10</button>
+        <button class="btn-cantidad" data-cantidad="15">15</button>
+        <button class="btn-cantidad" data-cantidad="20">20</button>
+      </div>
+
+      <p>Elige una categoría..</p>
+      <div class="categorias">
+        <div class="categoria" id="general">
+          <img src="img/general.png" alt="" class="foto-categoria"><h3>General</h3>
+        </div>
+        <div class="categoria" id="musica">
+          <img src="img/musica.png" alt="" class="foto-categoria"><h3>Música</h3>
+        </div>
+        <div class="categoria" id="peliculas">
+          <img src="img/peliculas.png" alt="" class="foto-categoria"><h3>Películas</h3>
+        </div>
+        <div class="categoria" id="deportes">
+          <img src="img/deportes.png" alt="" class="foto-categoria"><h3>Deportes</h3>
+        </div>
+        <div class="categoria" id="programacion">
+          <img src="img/programacion.png" alt="" class="foto-categoria"><h3>Programación</h3>
+        </div>
+        <div class="categoria" id="juegos">
+          <img src="img/juegos.png" alt="" class="foto-categoria"><h3>Video Juegos</h3>
+        </div>
+      </div>
+
+      <button class="btn" id="btn-ranking" style="margin-top:1.5rem;">🏆 Ver Ranking</button>
+    </main>
+  </div>
+  <script src="js/menu.js"></script>
+</body>
+</html>

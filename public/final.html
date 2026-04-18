@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/estilo.css">
+  <title>Game Quiz - Final</title>
+  <style>
+    .mensaje-record {
+      font-size: 1.3rem;
+      font-weight: bold;
+      padding: 0.8rem 1.5rem;
+      border-radius: 12px;
+      margin: 1rem 0;
+      text-align: center;
+    }
+    .record-nuevo   { background: #16a34a33; color: #4ade80; border: 2px solid #4ade80; }
+    .record-no      { background: #dc262633; color: #f87171; border: 2px solid #f87171; }
+    .botones-final  { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="img/auris.png" alt="" class="img">
+    <header>
+      <div class="puntaje"><img src="img/puntos.png" alt=""><span class="puntos" id="puntos">0</span></div>
+      <h1>QUIZ</h1>
+      <div class="jugador"><span class="nombre" id="nombre">-</span><img src="img/user.png" alt=""></div>
+    </header>
+
+    <main class="final">
+      <h2>QUIZ FINALIZADO</h2>
+
+      <div class="medalla">
+        <img src="img/medalla.png" alt="">
+        <h3 id="nombre-jugador" class="nombre">-</h3>
+      </div>
+
+      <span id="puntaje-final" class="puntaje-final">0 Puntos</span>
+
+      <h2>ACERTADAS: <span id="total-acertadas" class="final-score">0</span></h2>
+      <h2>INCORRECTAS: <span id="total-incorrectas" class="final-score">0</span></h2>
+
+      <div id="mensaje-record" class="mensaje-record" style="display:none;"></div>
+
+      <div class="botones-final">
+        <button class="btn" id="btn-comenzar">Jugar de Nuevo</button>
+        <button class="btn" id="btn-ranking">🏆 Ver Ranking</button>
+      </div>
+    </main>
+  </div>
+  <script src="js/final.js"></script>
+</body>
+</html>

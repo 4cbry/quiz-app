@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/estilo.css">
+  <title>Game Quiz</title>
+  <style>
+    .temporizador {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #a78bfa;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      transition: color 0.3s;
+    }
+    .temporizador.urgente { color: #ef4444; animation: pulso 0.5s infinite alternate; }
+    @keyframes pulso { from { transform: scale(1); } to { transform: scale(1.1); } }
+    .btn-cancelar {
+      background: transparent;
+      border: 2px solid #ef4444;
+      color: #ef4444;
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .btn-cancelar:hover { background: #ef4444; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="img/auris.png" alt="" class="img">
+    <header>
+      <div class="puntaje"><img src="img/puntos.png" alt=""><span class="puntos" id="puntos">0</span></div>
+      <h1>QUIZ</h1>
+      <div class="jugador"><span class="nombre" id="nombre">-</span><img src="img/user.png" alt=""></div>
+    </header>
+
+    <main class="juego">
+      <div class="temporizador" id="temporizador">⏱ 30s</div>
+
+      <div class="contador-pregunta">
+        <span id="num-pregunta" class="num-pregunta">01</span>
+        / <span id="total-preguntas">10</span>
+      </div>
+
+      <p id="txt-pregunta" class="pregunta">Cargando pregunta...</p>
+
+      <div class="opciones" id="opciones">
+        <button class="opcion" id="a">Opción A</button>
+        <button class="opcion" id="b">Opción B</button>
+        <button class="opcion" id="c">Opción C</button>
+        <button class="opcion" id="d">Opción D</button>
+      </div>
+
+      <button class="btn" id="siguiente">Siguiente</button>
+      <button class="btn-cancelar" id="cancelar">✖ Cancelar partida</button>
+    </main>
+  </div>
+  <script src="js/juego.js"></script>
+</body>
+</html>
