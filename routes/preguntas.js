@@ -15,30 +15,25 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/preguntas/juego/:categoria/:cantidad  – preguntas aleatorias para el juego
+// GET /api/preguntas/juego/:categoria/:cantidad
+// categoria puede ser el nombre de categoría o "todas"
 router.get('/juego/:categoria/:cantidad', async (req, res) => {
   try {
     const { categoria, cantidad } = req.params;
-    const limit = parseInt(cantidad) || 10;
-    const [rows] = await pool.execute(
-      'SELECT * FROM preguntas WHERE categoria = ? ORDER BY RAND() LIMIT ?',
-      [categoria, limit]
-    );
-    res.json(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error al obtener preguntas.' });
-  }
-});
+    // IMPORTANTE: mysql2 necesita número entero, no string, para LIMIT
+    const limit = parseInt(cantidad, 10) || 10;
 
-// GET /api/preguntas/juego/todas/:cantidad – preguntas aleatorias de todas las categorías
-router.get('/juego/todas/:cantidad', async (req, res) => {
-  try {
-    const limit = parseInt(req.params.cantidad) || 10;
-    const [rows] = await pool.execute(
-      'SELECT * FROM preguntas ORDER BY RAND() LIMIT ?',
-      [limit]
-    );
+    let rows;
+    if (categoria === 'todas') {
+      [rows] = await pool.query(
+        `SELECT * FROM preguntas ORDER BY RAND() LIMIT ${limit}`
+      );
+    } else {
+      [rows] = await pool.query(
+        `SELECT * FROM preguntas WHERE categoria = ? ORDER BY RAND() LIMIT ${limit}`,
+        [categoria]
+      );
+    }
     res.json(rows);
   } catch (err) {
     console.error(err);
