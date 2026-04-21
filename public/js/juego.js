@@ -99,7 +99,6 @@ function mostrarPregunta(num) {
     op.addEventListener('click', responder);
   });
 
-  txtPuntaje.classList.remove('efecto');
   iniciarTemporizador();
 }
 
@@ -111,12 +110,9 @@ function responder(e) {
 
   if (elegida === correcta) {
     e.currentTarget.classList.add('correcta');
-    // Puntaje dinámico: 100 base + 10 por cada segundo restante
-    let puntosGanados = 100 + (tiempoRestante * 10);
-    puntaje += puntosGanados;
+    puntaje++;
     acertadas++;
     txtPuntaje.textContent = puntaje;
-    txtPuntaje.classList.add('efecto');
   } else {
     e.currentTarget.classList.add('incorrecta');
     document.querySelector('#' + correcta).classList.add('correcta');
