@@ -28,6 +28,6 @@ app.get('/admin/preguntas', send('admin-preguntas.html'));
 // ── Start ───────────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`✅  Servidor corriendo en http://localhost:${PORT}`);
-  console.log(`🔐  Admin: http://localhost:${PORT}/admin`);
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Admin: http://localhost:${PORT}/admin`);
 });

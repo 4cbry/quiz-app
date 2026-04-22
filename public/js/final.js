@@ -19,11 +19,11 @@ document.querySelector('#total-incorrectas').textContent = incorrectas;
 // ── Mensaje de récord ─────────────────────────────────────────
 const msgRecord = document.querySelector('#mensaje-record');
 if (esRecord) {
-  msgRecord.textContent   = '🏆 ¡Nuevo récord alcanzado!';
+  msgRecord.textContent   = '¡Nuevo record alcanzado!';
   msgRecord.className     = 'mensaje-record record-nuevo';
   msgRecord.style.display = 'block';
 } else {
-  msgRecord.textContent   = '😅 No superaste el récord actual. ¡Intenta nuevamente!';
+  msgRecord.textContent   = 'No superaste el record actual. Intenta nuevamente.';
   msgRecord.className     = 'mensaje-record record-no';
   msgRecord.style.display = 'block';
 }

@@ -67,8 +67,8 @@ function renderTabla() {
       <td style="max-width:320px;">${p.titulo}</td>
       <td style="text-transform:uppercase;font-weight:bold;color:#a78bfa;">${p.correcta}</td>
       <td style="white-space:nowrap;">
-        <button class="btn-sm btn-azul" onclick="abrirEditar(${p.id})">✏ Editar</button>
-        <button class="btn-sm btn-rojo" onclick="eliminar(${p.id})" style="margin-left:4px;">🗑 Eliminar</button>
+        <button class="btn-sm btn-azul" onclick="abrirEditar(${p.id})">Editar</button>
+        <button class="btn-sm btn-rojo" onclick="eliminar(${p.id})" style="margin-left:4px;">Eliminar</button>
       </td>
     </tr>
   `).join('');
@@ -158,7 +158,7 @@ document.querySelector('#btn-guardar').addEventListener('click', async () => {
       return;
     }
 
-    msgForm.textContent = modoEdicion ? '✅ Pregunta actualizada.' : '✅ Pregunta registrada.';
+    msgForm.textContent = modoEdicion ? 'Pregunta actualizada.' : 'Pregunta registrada.';
     msgForm.className   = 'ok';
     await cargarPreguntas();
 
