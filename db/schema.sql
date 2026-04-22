@@ -1,27 +1,18 @@
--- ============================================================
--- QUIZ DE CATEGORÍAS - Base de Datos MySQL
--- Laboratorio ISW3 - 2026-1
--- ============================================================
+
 
 CREATE DATABASE IF NOT EXISTS quiz_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 USE quiz_db;
 
--- ------------------------------------------------------------
--- TABLA: admins  (Módulo Administrativo)
--- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS admins (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL
 );
 
--- Usuario por defecto: admin / admin123
-INSERT INTO admins (usuario, password) VALUES ('admin', 'admin123');
 
--- ------------------------------------------------------------
--- TABLA: preguntas
--- ------------------------------------------------------------
+INSERT INTO admins (usuario, password) VALUES ('admin', 'admin123')
+
 CREATE TABLE IF NOT EXISTS preguntas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     categoria VARCHAR(50) NOT NULL,
@@ -33,9 +24,6 @@ CREATE TABLE IF NOT EXISTS preguntas (
     correcta CHAR(1) NOT NULL -- 'a' | 'b' | 'c' | 'd'
 );
 
--- ------------------------------------------------------------
--- TABLA: jugadores  (histórico)
--- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS jugadores (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -44,9 +32,6 @@ CREATE TABLE IF NOT EXISTS jugadores (
     jugado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- ============================================================
--- DATOS INICIALES - 30 Preguntas (5 por categoría)
--- ============================================================
 INSERT INTO
     preguntas (
         categoria,
@@ -336,7 +321,6 @@ VALUES
     );
 
 INSERT INTO preguntas (categoria, titulo, opcion_a, opcion_b, opcion_c, opcion_d, correcta) VALUES
--- GENERAL (25 nuevas)
 ('general','¿Cuál es el país más grande del mundo por superficie?','China','Rusia','Canadá','Estados Unidos','b'),
 ('general','¿Cuántos huesos tiene el cuerpo humano adulto?','206','208','212','200','a'),
 ('general','¿Cuál es el océano más grande del mundo?','Atlántico','Índico','Ártico','Pacífico','d'),
@@ -363,7 +347,7 @@ INSERT INTO preguntas (categoria, titulo, opcion_a, opcion_b, opcion_c, opcion_d
 ('general','¿Cuántos colores tiene el arcoíris?','5','6','7','8','c'),
 ('general','¿Qué velocidad tiene la luz aproximadamente?','100,000 km/s','200,000 km/s','300,000 km/s','400,000 km/s','c'),
 
--- MÚSICA (25 nuevas)
+
 ('musica','¿Cuántas cuerdas tiene una guitarra estándar?','4','5','6','7','c'),
 ('musica','¿Quién compuso la Quinta Sinfonía?','Mozart','Bach','Beethoven','Chopin','c'),
 ('musica','¿De qué país es originario el reggae?','Brasil','Cuba','Trinidad','Jamaica','d'),
@@ -390,7 +374,6 @@ INSERT INTO preguntas (categoria, titulo, opcion_a, opcion_b, opcion_c, opcion_d
 ('musica','¿De qué país es el género musical K-pop?','Japón','Corea del Sur','China','Tailandia','b'),
 ('musica','¿Qué instrumento es la trompeta?','Cuerda','Percusión','Viento madera','Viento metal','d'),
 
--- DEPORTES (25 nuevas)
 ('deportes','¿Cuánto dura un partido de fútbol regular?','80 minutos','90 minutos','100 minutos','120 minutos','b'),
 ('deportes','¿En qué deporte se usa un birdie?','Tenis','Bádminton','Golf','Squash','c'),
 ('deportes','¿Cuántos jugadores hay en un equipo de voleibol?','5','6','7','8','b'),
@@ -417,7 +400,7 @@ INSERT INTO preguntas (categoria, titulo, opcion_a, opcion_b, opcion_c, opcion_d
 ('deportes','¿Cuánto pesa una pelota de tenis estándar?','55 g','58 g','63 g','67 g','b'),
 ('deportes','¿En qué deporte se puede hacer un "slam dunk"?','Voleibol','Baloncesto','Balonmano','Rugby','b'),
 
--- PROGRAMACIÓN (25 nuevas)
+
 ('programacion','¿Qué significa IDE en programación?','Internet Developer Environment','Integrated Development Environment','Internal Design Engine','Interface Design Editor','b'),
 ('programacion','¿Cuál es el símbolo de comentario de una línea en Python?','//','/*','#','--','c'),
 ('programacion','¿Qué lenguaje creó Linus Torvalds para el kernel Linux?','C++','Java','C','Python','c'),
@@ -444,7 +427,7 @@ INSERT INTO preguntas (categoria, titulo, opcion_a, opcion_b, opcion_c, opcion_d
 ('programacion','¿Qué operador se usa para la comparación estricta en JavaScript?','==','!=','===','!==','c'),
 ('programacion','¿Qué es JSON?','Java Script Object Notation','JavaScript Source Object Name','Java Simple Object Notation','JavaScript String Option Name','a'),
 
--- VIDEO JUEGOS (25 nuevas)
+
 ('juegos','¿En qué año se lanzó el primer videojuego Pokémon?','1994','1996','1998','2000','b'),
 ('juegos','¿Qué consola lanzó Nintendo en 2017?','Wii U','3DS','Switch','GameBoy Advance','c'),
 ('juegos','¿Cómo se llama la princesa que rescata Mario?','Rosalinda','Daisy','Paulina','Peach','d'),
@@ -471,7 +454,7 @@ INSERT INTO preguntas (categoria, titulo, opcion_a, opcion_b, opcion_c, opcion_d
 ('juegos','¿Qué juego tiene el modo "Survival" más famoso?','Terraria','Minecraft','Subnautica','The Long Dark','b'),
 ('juegos','¿Quién es el creador de Minecraft?','Gabe Newell','Markus Persson','Shigeru Miyamoto','Todd Howard','b'),
 
--- PELÍCULAS (25 nuevas)
+
 ('peliculas','¿Quién dirigió Titanic?','Steven Spielberg','Christopher Nolan','James Cameron','Ridley Scott','c'),
 ('peliculas','¿En qué año se estrenó Star Wars: Una Nueva Esperanza?','1975','1977','1979','1980','b'),
 ('peliculas','¿Qué actor interpreta a Iron Man?','Chris Evans','Chris Hemsworth','Mark Ruffalo','Robert Downey Jr.','d'),
